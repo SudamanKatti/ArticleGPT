@@ -5,6 +5,9 @@ the following repository demonstrates code to train GPT2 using a csv file with n
 ![image](https://github.com/user-attachments/assets/14d0f9d0-8156-4802-bee0-209686841054)
 
 
+![image](https://github.com/user-attachments/assets/eb4c44c7-72fe-45f8-a6c6-07106b9ad22c)
+
+
 ![image](https://github.com/user-attachments/assets/302c38ea-f0a0-4a87-a873-fe93a1163b9f)
 
 
