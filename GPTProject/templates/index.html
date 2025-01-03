@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with GPT</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chat with Article GPT</h1>
+        <div id="chat-window">
+            <!-- Chat messages will appear here -->
+        </div>
+        <textarea id="user-input" placeholder="Type your message..."></textarea>
+        <button id="send-btn">Send</button>
+        <!-- Add Metrics Button -->
+        <a href="/metrics" id="metrics-btn" class="button">View Metrics</a>
+    </div>
+
+    <script>
+        const sendBtn = document.getElementById("send-btn");
+        const userInput = document.getElementById("user-input");
+        const chatWindow = document.getElementById("chat-window");
+
+        sendBtn.addEventListener("click", async () => {
+            const userText = userInput.value.trim();
+            if (!userText) return;
+
+            // Add user message to chat window
+            const userMessage = document.createElement("div");
+            userMessage.className = "message user-message";
+            userMessage.textContent = userText;
+            chatWindow.appendChild(userMessage);
+
+            // Clear input field
+            userInput.value = "";
+
+            // Add "Generating response..." placeholder to chat window
+            const botMessage = document.createElement("div");
+            botMessage.className = "message bot-message";
+            botMessage.textContent = "Generating response...";
+            chatWindow.appendChild(botMessage);
+
+            try {
+                // Send message to server
+                const response = await fetch("/generate", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ prompt: userText }),
+                });
+
+                const data = await response.json();
+
+                // Update placeholder with the actual response
+                botMessage.textContent = data.response || "Error occurred!";
+            } catch (error) {
+                console.error("Error:", error);
+
+                // Update placeholder with error message
+                botMessage.textContent = "Error generating response. Please try again.";
+            }
+
+            // Scroll to the bottom of the chat window
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        });
+    </script>
+</body>
+</html>

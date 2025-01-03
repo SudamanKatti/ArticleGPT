@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metrics</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="metrics-container">
+        <h1>Metrics</h1>
+        {% if metrics %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Prompt</th>
+                        <th>Response</th>
+                        <th>Relevancy</th>
+                        <th>Answerability</th>
+                        <th>Style</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric in metrics %}
+                        <tr>
+                            <td>{{ metric.prompt }}</td>
+                            <td>{{ metric.response }}</td>
+                            <td>{{ metric.scores.relevancy | default(0) | round(2) }}</td>
+                            <td>{{ metric.scores.answerability | default(0) | round(2) }}</td>
+                            <td>{{ metric.scores.style | default(0) | round(2) }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No metrics available. Generate some responses first!</p>
+        {% endif %}
+        <a href="/">Back to Chat</a>
+    </div>
+</body>
+</html>
